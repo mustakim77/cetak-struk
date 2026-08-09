@@ -297,7 +297,7 @@
                     </div>
                     <div class="form-group">
                         <label>Admin (Rp)</label>
-                        <div class="input-wrapper"><i class="fa-solid fa-plus"></i><input id="in-admin" inputmode="numeric" value="2500"></div>
+                        <div class="input-wrapper"><i class="fa-solid fa-plus"></i><input id="in-admin" inputmode="numeric" value="3000"></div>
                     </div>
                 </div>
 
@@ -608,10 +608,32 @@
         }
 
         function detectKWH(dataText) {
-            let m = dataText.match(/(?:jml\s*kwh|jumlah\s*kwh|kwh)\s*[:\-\s]*(\d+([.,]\d+)?)/i);
-            if (m) return m[1];
-            let m2 = dataText.match(/(\d+([.,]\d+)?)\s*kwh/i);
-            if (m2) return m2[1];
+            let regex = /(?:jml\s*kwh|jumlah\s*kwh|kwh)\s*[:\-\s]*([\d.,]+)/i;
+            let m = dataText.match(regex);
+    
+            if (!m) {
+                let regex2 = /([\d.,]+)\s*kwh/i;
+                let m2 = dataText.match(regex2);
+                if (m2) m = m2;
+            }
+            
+            if (m && m[1]) {
+                let rawVal = m[1];
+                
+                // Bersihkan titik ribuan dan ubah koma menjadi titik desimal
+                let cleaned = rawVal.replace(/\./g, '').replace(',', '.');
+                let parsed = parseFloat(cleaned);
+                
+                if (!isNaN(parsed)) {
+                    // Sesuaikan nilai (dibagi 100 agar 15030.0 menjadi 150.30)
+                    let finalVal = parsed / 100;
+                    // Jika ingin selalu menampilkan 2 digit dibelakang koma (misal: 150.30)
+                    return finalVal.toFixed(2);
+                }
+        
+                return rawVal;
+            }
+
             return '';
         }
 
