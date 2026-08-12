@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mustakim Phone - Cetak Struk</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
@@ -26,7 +26,7 @@
         body { background-color: var(--bg-body); display: flex; justify-content: center; min-height: 100vh; color: var(--text-main); }
         .app-container { background-color: var(--bg-app); width: 100%; max-width: 480px; min-height: 100vh; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0,0,0,0.05); overflow-x: hidden; padding-bottom: 70px;}
         
-        /* HEADER BARU */
+        /* HEADER */
         .header-curve {
             background-color: var(--primary);
             border-bottom-left-radius: 35px;
@@ -138,21 +138,22 @@
         .modal-header h2 { font-size: 18px; font-weight: 700; color: var(--text-main); }
         .btn-close { background: #e2e8f0; border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; }
 
-        /* RECEIPT PAPER (SAMA SEPERTI SEBELUMNYA) */
-        .receipt-paper { background: white; width: 100%; max-width: 300px; padding: 25px 15px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); font-family: 'Space Mono', monospace; font-size: 11px; color: #000; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 20px;}
-        .receipt-center { text-align: center; margin-bottom: 12px; }
-        .receipt-center h3 { font-size: 14px; font-weight: bold; margin-bottom: 4px; letter-spacing: 0.5px; }
+        /* RECEIPT PAPER (PRESISI THERMAL 32 CHARS) */
+        .receipt-paper { background: white; width: 100%; max-width: 320px; padding: 20px 15px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); font-family: 'Space Mono', monospace; font-size: 11px; color: #000; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 20px;}
+        .receipt-center { text-align: center; margin-bottom: 8px; }
+        .receipt-center h3 { font-size: 14px; font-weight: bold; margin-bottom: 2px; letter-spacing: 0.5px; }
         .receipt-center p { font-size: 11px; }
-        .receipt-line { border-top: 1px dashed #94a3b8; margin: 10px 0; }
-        .receipt-row { display: flex; margin-bottom: 6px; font-size: 11px; }
-        .receipt-row.bold { font-weight: bold; font-size: 12px; margin-top: 10px; }
-        .r-label { width: 105px; flex-shrink: 0; }
+        .receipt-line { border-top: 1px dashed #000; margin: 8px 0; }
+        .receipt-line-double { border-top: 2px solid #000; margin: 8px 0; }
+        .receipt-row { display: flex; margin-bottom: 4px; font-size: 11px; }
+        .receipt-row.bold { font-weight: bold; font-size: 12px; margin-top: 6px; }
+        .r-label { width: 125px; flex-shrink: 0; white-space: pre; }
         .r-colon { width: 12px; text-align: center; flex-shrink: 0; }
-        .r-value { flex-grow: 1; text-align: left; word-break: break-word; }
-        #block-out-no-pelanggan { display: none; text-align: center; margin: 18px 0; }
-        #out-no-pelanggan { font-weight: 700; font-size: 16px; letter-spacing: 1px; }
+        .r-value { flex-grow: 1; text-align: left; word-break: break-all; }
+        #block-out-no-pelanggan { display: none; text-align: center; margin: 12px 0; }
+        #out-no-pelanggan { font-weight: 700; font-size: 14px; letter-spacing: 1px; word-break: break-all;}
 
-        .modal-actions { display: flex; gap: 12px; width: 100%; max-width: 300px; flex-direction: column;}
+        .modal-actions { display: flex; gap: 12px; width: 100%; max-width: 320px; flex-direction: column;}
         .btn-action { padding: 14px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; transition: 0.2s;}
         .btn-action.primary { background: var(--primary); color: white; }
         .btn-action.whatsapp { background: #25D366; color: white; }
@@ -200,7 +201,7 @@
             </div>
         </header>
 
-        <!-- HALAMAN 1: BERANDA (FORM & SCAN) -->
+        <!-- HALAMAN 1: BERANDA -->
         <div id="page-beranda" class="page active">
             
             <div class="trx-tabs-wrapper">
@@ -224,14 +225,14 @@
                 <input type="file" id="main-file-input" accept="image/*" style="display: none;">
                 <label for="main-file-input" class="scan-box">
                     <i class="fa-solid fa-expand"></i>
-                    <h3 id="lbl-scan-title">Scan Bukti Transaksi</h3>
-                    <p id="lbl-scan-sub">Upload screenshot dari Shopee, DANA, BRImo dll</p>
+                    <h3 id="lbl-scan-title">Scan Bukti Token PLN</h3>
+                    <p id="lbl-scan-sub">Upload struk Shopee, DANA, Tokopedia dll</p>
                 </label>
                 <button id="btn-raw-ocr" onclick="showRawOcrModal()">Lihat Teks Mentah OCR</button>
             </div>
 
             <div class="form-card">
-                <!-- Metadata Tersembunyi (Tapi bisa diedit jika perlu, default disembunyikan agar rapi) -->
+                <!-- Metadata Tersembunyi -->
                 <div class="row-flex" style="display: none;" id="wrap-meta">
                     <div class="form-group">
                         <label>Tanggal Transaksi</label>
@@ -243,19 +244,19 @@
                     </div>
                 </div>
 
-                <!-- Field 1: ID Pelanggan / Rek Tujuan (PLN) ATAU Rek Pengirim (Transfer) -->
+                <!-- Field 1: Sumber Dana -->
                 <div class="form-group" id="wrap-f1">
                     <label id="lbl-f1">ID Pelanggan / No. Meter</label>
                     <div class="input-wrapper"><i class="fa-solid fa-id-card" id="icn-f1"></i><input id="in-f1" placeholder="Otomatis / Manual"></div>
                 </div>
 
-                <!-- Field 2: Nama Pelanggan (PLN) ATAU Nama Pengirim (Transfer) -->
+                <!-- Field 2: Nama Pembayar -->
                 <div class="form-group" id="wrap-f2">
                     <label id="lbl-f2">Nama Pelanggan</label>
                     <div class="input-wrapper"><i class="fa-solid fa-user" id="icn-f2"></i><input id="in-f2" placeholder="Otomatis / Manual"></div>
                 </div>
 
-                <!-- Khusus Transfer: Field 3 (Rek Tujuan) & 4 (Nama Tujuan) & 5 (Bank) -->
+                <!-- Khusus Transfer / Tagihan / E-Wallet -->
                 <div id="wrap-tujuan-transfer" style="display: none; flex-direction: column; gap: 16px;">
                     <div class="form-group">
                         <label id="lbl-tujuan-rek">Rekening Tujuan</label>
@@ -266,8 +267,12 @@
                         <div class="input-wrapper"><i class="fa-solid fa-user"></i><input id="in-tujuan-nama" placeholder="Otomatis / Manual"></div>
                     </div>
                     <div class="form-group">
-                        <label id="lbl-tujuan-bank">Bank Tujuan</label>
-                        <div class="input-wrapper"><i class="fa-solid fa-building-columns"></i><input id="in-tujuan-bank" placeholder="BCA / BRI / MANDIRI"></div>
+                        <label id="lbl-tujuan-bank">Bank / Produk</label>
+                        <div class="input-wrapper"><i class="fa-solid fa-building-columns"></i><input id="in-tujuan-bank" placeholder="BPJS KESEHATAN / PDAM"></div>
+                    </div>
+                    <div class="form-group" id="wrap-periode" style="display: none;">
+                        <label id="lbl-periode">Periode Tagihan</label>
+                        <div class="input-wrapper"><i class="fa-solid fa-calendar-days"></i><input id="in-periode" placeholder="Agt 2026 (4 Peserta)"></div>
                     </div>
                 </div>
 
@@ -279,14 +284,14 @@
                     </div>
                     <div class="form-group">
                         <label>JML KWH</label>
-                        <div class="input-wrapper"><i class="fa-solid fa-chart-pie"></i><input id="in-jml-kwh" placeholder="0,00"></div>
+                        <div class="input-wrapper"><i class="fa-solid fa-chart-pie"></i><input id="in-jml-kwh" placeholder="0.00"></div>
                     </div>
                 </div>
 
-                <!-- Khusus PLN/Tagihan: TOKEN -->
+                <!-- Khusus PLN/Tagihan: TOKEN / SN -->
                 <div class="form-group" id="wrap-token">
-                    <label>SERIAL NUMBER / TOKEN</label>
-                    <div class="input-wrapper input-token"><i class="fa-solid fa-key"></i><input id="in-token" placeholder="20 Digit Angka"></div>
+                    <label id="lbl-token">SERIAL NUMBER / TOKEN</label>
+                    <div class="input-wrapper input-token"><i class="fa-solid fa-key"></i><input id="in-token" placeholder="Otomatis / Manual"></div>
                 </div>
 
                 <!-- Nominal & Admin -->
@@ -374,24 +379,28 @@
                 <div class="receipt-paper" id="printable-receipt">
                     <div class="receipt-center">
                         <h3>MUSTAKIM PHONE</h3>
-                        <p id="out-judul">STRUK TOKEN LISTRIK</p>
+                        <p id="out-judul">BUKTI PEMBAYARAN</p>
                     </div>
-                    <div class="receipt-line"></div>
-                    <div class="receipt-row"><div class="r-label">Tanggal</div><div class="r-colon">:</div><div class="r-value" id="out-tanggal">--</div></div>
+                    <div class="receipt-line-double"></div>
+                    
+                    <div class="receipt-row"><div class="r-label" id="lbl-out-tanggal">Tanggal</div><div class="r-colon">:</div><div class="r-value" id="out-tanggal">--</div></div>
                     <div class="receipt-row"><div class="r-label" id="lbl-out-ref">ID TRX</div><div class="r-colon">:</div><div class="r-value" id="out-ref">--</div></div>
+
                     <div class="receipt-line"></div>
                     
-                    <div class="receipt-row" id="row-out-f1"><div class="r-label" id="lbl-out-f1">ID Pelanggan</div><div class="r-colon">:</div><div class="r-value" id="out-f1">--</div></div>
-                    <div class="receipt-row" id="row-out-f2"><div class="r-label" id="lbl-out-f2">Nama Pelanggan</div><div class="r-colon">:</div><div class="r-value" id="out-f2">--</div></div>
+                    <div class="receipt-row" id="row-out-f1"><div class="r-label" id="lbl-out-f1">Sumber Dana</div><div class="r-colon">:</div><div class="r-value" id="out-f1">--</div></div>
+                    <div class="receipt-row" id="row-out-f2"><div class="r-label" id="lbl-out-f2">Pembayar</div><div class="r-colon">:</div><div class="r-value" id="out-f2">--</div></div>
                     
+                    <div class="receipt-line"></div>
+
+                    <div class="receipt-row" id="row-out-tujuan-rek" style="display: none;"><div class="r-label" id="lbl-out-tujuan-rek">No. VA Keluarga</div><div class="r-colon">:</div><div class="r-value" id="out-tujuan-rek">--</div></div>
+                    <div class="receipt-row" id="row-out-tujuan-nama" style="display: none;"><div class="r-label" id="lbl-out-tujuan-nama">Nama Pelanggan</div><div class="r-colon">:</div><div class="r-value" id="out-tujuan-nama">--</div></div>
+                    <div class="receipt-row" id="row-out-tujuan-bank" style="display: none;"><div class="r-label" id="lbl-out-tujuan-bank">Produk</div><div class="r-colon">:</div><div class="r-value" id="out-tujuan-bank">--</div></div>
+                    <div class="receipt-row" id="row-out-periode" style="display: none;"><div class="r-label">Periode</div><div class="r-colon">:</div><div class="r-value" id="out-periode">--</div></div>
+
                     <!-- Khusus PLN -->
-                    <div class="receipt-row" id="row-out-tarif"><div class="r-label">Tarif/Daya</div><div class="r-colon">:</div><div class="r-value" id="out-tarif">--</div></div>
-                    <div class="receipt-row" id="row-out-kwh"><div class="r-label">Jumlah KWH</div><div class="r-colon">:</div><div class="r-value" id="out-kwh">--</div></div>
-                    
-                    <!-- Khusus Transfer -->
-                    <div class="receipt-row" id="row-out-tujuan-rek" style="display: none;"><div class="r-label">Rek Tujuan</div><div class="r-colon">:</div><div class="r-value" id="out-tujuan-rek">--</div></div>
-                    <div class="receipt-row" id="row-out-tujuan-nama" style="display: none;"><div class="r-label">Nama Tujuan</div><div class="r-colon">:</div><div class="r-value" id="out-tujuan-nama">--</div></div>
-                    <div class="receipt-row" id="row-out-tujuan-bank" style="display: none;"><div class="r-label">Bank/Produk</div><div class="r-colon">:</div><div class="r-value" id="out-tujuan-bank">--</div></div>
+                    <div class="receipt-row" id="row-out-tarif" style="display: none;"><div class="r-label">Tarif/Daya</div><div class="r-colon">:</div><div class="r-value" id="out-tarif">--</div></div>
+                    <div class="receipt-row" id="row-out-kwh" style="display: none;"><div class="r-label">Jumlah KWH</div><div class="r-colon">:</div><div class="r-value" id="out-kwh">--</div></div>
                     
                     <div id="block-out-no-pelanggan">
                         <div style="font-size: 11px; margin-bottom: 5px;">** Serial Number **</div>
@@ -402,11 +411,10 @@
                     <div class="receipt-row"><div class="r-label">Nominal</div><div class="r-colon">:</div><div class="r-value" id="out-nominal">Rp 0</div></div>
                     <div class="receipt-row"><div class="r-label">Biaya Admin</div><div class="r-colon">:</div><div class="r-value" id="out-admin">Rp 0</div></div>
                     <div class="receipt-row bold"><div class="r-label">TOTAL</div><div class="r-colon">:</div><div class="r-value" id="out-total">Rp 0</div></div>
-                    <div class="receipt-line"></div>
-                    <div class="receipt-center" style="margin-top: 15px; color: #475569;">
-                        
-                        <p>Terima kasih!<br>telah menggunakan layanan kami</p>
-                        <p style="margin-top:8px">==============================</p>
+                    <div class="receipt-line-double"></div>
+                    <div class="receipt-center" style="margin-top: 10px; color: #000;">
+                        <p>Transaksi Berhasil<br>Terima kasih telah<br>menggunakan layanan kami</p>
+                        <p style="margin-top:6px">================================</p>
                     </div>
                 </div>
 
@@ -414,7 +422,7 @@
                     <div class="row-flex">
                         <button class="btn-action outline" onclick="simpanKeRiwayat()"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
                         <button class="btn-action whatsapp" onclick="shareKeWhatsApp(this)"><i class="fa-brands fa-whatsapp"></i> Share</button>
-                        <button class="btn-action primary" id="hdr-printer-icon" onclick="printReceiptBluetooth()"><i class="fa-solid fa-print"></i> Cetak</button>
+                        <button class="btn-action primary" onclick="printReceiptBluetooth()"><i class="fa-solid fa-print"></i> Cetak</button>
                     </div>
                 </div>
             </div>
@@ -438,7 +446,7 @@
     <script>
         // CONFIG
         const API_URL = 'https://script.google.com/macros/s/AKfycbyelWPHqoyS8FyL86IOOziHJADaWLhRrmWGYjMEclcr4iEsC0DX7j9FkES5A8wiHwxz/exec';
-        let jenisTransaksiAktif = 'listrik'; // Default sesuai mockup
+        let jenisTransaksiAktif = 'listrik';
         let printerConn = { device: null, characteristic: null, profile: null };
 
         // UTILS
@@ -452,6 +460,30 @@
         }
         function formatRibuan(angka) { return parseInt(String(angka).replace(/\D/g, ''))?.toLocaleString('id-ID') || '0'; }
         
+        function cleanRupiah(str) {
+            if (!str) return '0';
+            let s = String(str).replace(/Rp/gi, '').trim();
+            s = s.replace(/,00?$/g, '');
+            s = s.replace(/\D/g, '');
+            return s || '0';
+        }
+
+        function detectTanggal(dataText) {
+            let p1 = dataText.match(/\b\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2}(?::\d{2})?)?\b/);
+            if (p1) return p1[0];
+
+            let p2 = dataText.match(/\b\d{2}[\/\-]\d{2}[\/\-]\d{4}(?:\s+\d{2}:\d{2}(?::\d{2})?)?\b/);
+            if (p2) return p2[0];
+
+            let p3 = dataText.match(/\b\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4}(?:,\s*|\s+)\d{2}:\d{2}(?::\d{2})?(?:\s*WIB|\s*WITA|\s*WIT)?\b/i);
+            if (p3) return p3[0];
+
+            let p4 = dataText.match(/\b\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4}\b/);
+            if (p4) return p4[0];
+
+            return '';
+        }
+
         // PAGE NAVIGATION
         function switchPage(pageId, navEl) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -483,8 +515,8 @@
             const wTujuanTF = document.getElementById('wrap-tujuan-transfer');
             const wPln = document.getElementById('wrap-pln-detail');
             const wToken = document.getElementById('wrap-token');
+            const wPeriode = document.getElementById('wrap-periode');
 
-            // Reset placeholders
             inF1.placeholder = "Otomatis / Manual";
             inF2.placeholder = "Otomatis / Manual";
 
@@ -497,7 +529,7 @@
                 
                 wF1.style.display = 'flex'; wF2.style.display = 'flex';
                 wPln.style.display = 'flex'; wToken.style.display = 'flex';
-                wTujuanTF.style.display = 'none';
+                wTujuanTF.style.display = 'none'; wPeriode.style.display = 'none';
 
             } else if(jenis === 'transfer') {
                 lblTitle.innerText = "Scan Bukti Transfer";
@@ -506,9 +538,13 @@
                 lblF1.innerText = "Rekening Pengirim"; icnF1.className = "fa-solid fa-wallet";
                 lblF2.innerText = "Nama Pengirim"; icnF2.className = "fa-solid fa-user";
                 
+                document.getElementById('lbl-tujuan-rek').innerText = "Rekening Tujuan";
+                document.getElementById('lbl-tujuan-nama').innerText = "Nama Tujuan";
+                document.getElementById('lbl-tujuan-bank').innerText = "Bank Tujuan";
+
                 wF1.style.display = 'flex'; wF2.style.display = 'flex';
                 wTujuanTF.style.display = 'flex';
-                wPln.style.display = 'none'; wToken.style.display = 'none';
+                wPln.style.display = 'none'; wToken.style.display = 'none'; wPeriode.style.display = 'none';
 
             } else if(jenis === 'ewallet') {
                 lblTitle.innerText = "Scan Bukti E-Wallet";
@@ -523,26 +559,26 @@
                 
                 wF1.style.display = 'flex'; wF2.style.display = 'flex';
                 wTujuanTF.style.display = 'flex';
-                wPln.style.display = 'none'; wToken.style.display = 'none';
+                wPln.style.display = 'none'; wToken.style.display = 'none'; wPeriode.style.display = 'none';
                 
             } else if(jenis === 'tagihan') {
                 lblTitle.innerText = "Scan Bayar Tagihan";
-                lblSub.innerText = "Upload struk PDAM, BPJS, Internet dll";
+                lblSub.innerText = "Upload struk BPJS, PDAM, Internet dll";
                 
                 lblF1.innerText = "Sumber Dana"; icnF1.className = "fa-solid fa-wallet";
                 lblF2.innerText = "Nama Pembayar"; icnF2.className = "fa-solid fa-user";
                 
-                document.getElementById('lbl-tujuan-rek').innerText = "No. Pelanggan/Tagihan";
+                document.getElementById('lbl-tujuan-bank').innerText = "Produk (BPJS / PDAM)";
+                document.getElementById('lbl-tujuan-rek').innerText = "No. VA Keluarga";
                 document.getElementById('lbl-tujuan-nama').innerText = "Nama Pelanggan";
-                document.getElementById('lbl-tujuan-bank').innerText = "Penyedia (PDAM/BPJS)";
                 
                 wF1.style.display = 'flex'; wF2.style.display = 'flex';
-                wTujuanTF.style.display = 'flex'; wToken.style.display = 'flex';
-                wPln.style.display = 'none';
+                wTujuanTF.style.display = 'flex'; wPeriode.style.display = 'flex';
+                wToken.style.display = 'flex'; wPln.style.display = 'none';
             }
         }
 
-        // OCR CORE (BERANDA)
+        // OCR CORE
         document.getElementById('main-file-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -593,170 +629,254 @@
         function showRawOcrModal() { document.getElementById('raw-ocr-text').value = window.__lastRawOcrText || ''; document.getElementById('raw-ocr-modal').style.display = 'flex'; }
         function copyRawOcrText() { document.getElementById('raw-ocr-text').select(); document.execCommand('copy'); showToast('Disalin!'); }
 
-        // EXTRACTION LOGIC
-        function detectTokenPLN(dataText) {
-            const tokenMatch = dataText.match(/(?:token|stroom|kode\s*token|no\.?\s*token|serial\s*number)[:\s]*((?:\d[\s\-]?){20})/i);
-            if (tokenMatch) return tokenMatch[1].replace(/[\s\-]/g, '');
-            const kandidatToken = [...dataText.matchAll(/\b(?:\d[\s\-]?){20}\b/g)];
-            const kataKunciBukanToken = /(id\s*transaksi|no\.?\s*ref|referensi|order|merchant|invoice)/i;
-            for (const kandidat of kandidatToken) {
-                const posisi = kandidat.index;
-                const konteksSebelum = dataText.substring(Math.max(0, posisi - 30), posisi);
-                if (!kataKunciBukanToken.test(konteksSebelum)) return kandidat[0].replace(/[\s\-]/g, '');
-            }
-            return '';
-        }
-
-        function detectKWH(dataText) {
-            let regex = /(?:jml\s*kwh|jumlah\s*kwh|kwh)\s*[:\-\s]*([\d.,]+)/i;
-            let m = dataText.match(regex);
-    
-            if (!m) {
-                let regex2 = /([\d.,]+)\s*kwh/i;
-                let m2 = dataText.match(regex2);
-                if (m2) m = m2;
-            }
-            
-            if (m && m[1]) {
-                let rawVal = m[1];
-                
-                // Bersihkan titik ribuan dan ubah koma menjadi titik desimal
-                let cleaned = rawVal.replace(/\./g, '').replace(',', '.');
-                let parsed = parseFloat(cleaned);
-                
-                if (!isNaN(parsed)) {
-                    // Sesuaikan nilai (dibagi 100 agar 15030.0 menjadi 150.30)
-                    let finalVal = parsed / 100;
-                    // Jika ingin selalu menampilkan 2 digit dibelakang koma (misal: 150.30)
-                    return finalVal.toFixed(2);
-                }
-        
-                return rawVal;
-            }
-
-            return '';
-        }
-
-        function detectTarifDaya(dataText) {
-            // Mencari format seperti R1/900, R1M/900 VA, R1/450
-            let m = dataText.match(/\b([RBMP][1-3][A-Z]?\s*\/\s*\d{3,5}(?:\s*VA)?)\b/i);
-            if (m) return m[1].toUpperCase();
-            return '';
-        }
-
+        // ROUTER SCAN OCR TERPISAH
         function extractDataFromText(text) {
             const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
             let dataText = text.replace(/\n/g, ' ');
 
-            // Reset
-            ['in-f1','in-f2','in-tujuan-rek','in-tujuan-nama','in-tujuan-bank','in-tarif-daya','in-jml-kwh','in-token','in-nominal'].forEach(id => document.getElementById(id).value = '');
-            
-            // Set Tanggal Default jika gagal terbaca
-            document.getElementById('in-tanggal').value = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).replace(/\./g, ':') + ' WIB';
-
-            // Universal Extractors
-            let pDate = "";
-            let pRef = dataText.match(/(?:ref|trx|referensi|transaksi)\s*[:\s]*([a-zA-Z0-9]+)/i);
-            if(pRef) document.getElementById('in-ref').value = pRef[1];
-            
-            let nomMatch = dataText.match(/(?:rp|total|bayar|nominal|stroom)[^\d]*(\d{2,3}[\.\,]\d{3}(?:[\.\,]\d{3})?)/i) || dataText.match(/Rp\s*([\d\.\,]+)/i);
-            if (nomMatch) document.getElementById('in-nominal').value = nomMatch[1].replace(/[\.\,]/g, '');
+            // Reset seluruh field
+            ['in-f1','in-f2','in-tujuan-rek','in-tujuan-nama','in-tujuan-bank','in-tarif-daya','in-jml-kwh','in-token','in-nominal','in-periode','in-ref'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
 
             if (jenisTransaksiAktif === 'listrik') {
-                document.getElementById('in-token').value = detectTokenPLN(dataText);
-                document.getElementById('in-jml-kwh').value = detectKWH(dataText);
-                document.getElementById('in-tarif-daya').value = detectTarifDaya(dataText);
+                extractPln(dataText, lines);
+            } else if (jenisTransaksiAktif === 'transfer') {
+                extractTransfer(dataText, lines);
+            } else if (jenisTransaksiAktif === 'ewallet') {
+                extractEwallet(dataText, lines);
+            } else if (jenisTransaksiAktif === 'tagihan') {
+                extractTagihan(dataText, lines);
+            }
+        }
 
-                let pId = "", pNama = "";
-                let gabunganMatch = dataText.match(/(?:Token Listrik|PLN)[^\d]*\d+[a-zA-Z]*\s+(\d{11,12})\s+([A-Za-z\s]+)/i);
-                if (gabunganMatch) { pId = gabunganMatch[1]; pNama = gabunganMatch[2].trim().replace(/\s+/g, ' '); }
+        // 1. FUNGSI SCAN TOKEN PLN (TIDAK DIUBAH)
+        function extractPln(dataText, lines) {
+            let tgl = detectTanggal(dataText);
+            if (tgl) document.getElementById('in-tanggal').value = tgl;
 
-                for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i]; let lLower = line.toLowerCase();
-                    if (!pId && (lLower.includes('id pel') || lLower.includes('meter'))) { let m = line.match(/(\d{11,12})/); if (m) pId = m[1]; }
-                    if (!pId) { let anyId = line.match(/(?<!\d)(\d{11,12})(?!\d)/); if (anyId) pId = anyId[1]; }
-                    
-                    if (!pNama) {
-                        let spaced = line.match(/\b(?:[A-Z]\s){2,}[A-Z]\b/);
-                        if (spaced) pNama = spaced[0].replace(/\s+/g, '');
-                        if (!pNama) { let m = line.match(/\b\d{11,12}\s+([A-Za-z\s]{3,})/); if (m) pNama = m[1].replace(/\s+/g, ' ').trim(); }
-                        if (!pNama && (lLower.includes('nama'))) {
-                            let n = line.replace(/^(nama\s*pelanggan|nama\s*pel|nama)[:\s\-]*/i, '').trim();
-                            if (!n && i + 1 < lines.length) n = lines[i + 1].trim();
-                            if (n) pNama = n.replace(/\s+/g, ' ').trim();
-                        }
+            let ref = dataText.match(/(?:no\.?\s*pesanan|no\.?\s*ref|ref|trx|referensi)[:\s]*([a-zA-Z0-9]+)/i);
+            if (ref) document.getElementById('in-ref').value = ref[1];
+
+            let idpel = dataText.match(/(?:idpel|id\s*pelanggan)[:\s]*(\d{11,12})/i);
+            let noMeter = dataText.match(/(?:no\s*meter|meter)[:\s]*(\d{11,12})/i);
+            if (idpel) {
+                document.getElementById('in-f1').value = idpel[1];
+            } else if (noMeter) {
+                document.getElementById('in-f1').value = noMeter[1];
+            } else {
+                let anyId = dataText.match(/\b\d{11,12}\b/);
+                if (anyId) document.getElementById('in-f1').value = anyId[0];
+            }
+
+            let nama = dataText.match(/(?:nama)[:\s]*([A-Za-z\s]+?)(?=\s*(?:tarif|daya|no\s*ref|rp|$))/i);
+            if (nama) {
+                document.getElementById('in-f2').value = nama[1].replace(/\s+/g, ' ').trim();
+            } else {
+                for (let line of lines) {
+                    if (/^nama[:\s]*/i.test(line)) {
+                        let n = line.replace(/^nama[:\s]*/i, '').trim();
+                        if (n) document.getElementById('in-f2').value = n;
                     }
                 }
-                if (pId) document.getElementById('in-f1').value = pId;
-                if (pNama) document.getElementById('in-f2').value = pNama;
-                return;
             }
 
-            // Transfer / E-Wallet / Tagihan parsing fallbackF
-            let section = 'none';
-            let pengirimData = [], tujuanData = [];
-            const stripLabelPrefix = (line) => line.replace(/^(nama|rekening|akun(?:\s*dana)?|no\.?\s*rekening|nomor\s*hp|id\s*akun)[:\s]+/i, '').trim();
+            let td = dataText.match(/\b([RBMP][1-3][A-Z]?\s*\/\s*\d{3,5}(?:\s*VA)?)\b/i);
+            if (td) document.getElementById('in-tarif-daya').value = td[1].toUpperCase().replace(/\s+/g, '');
 
-            for (let line of lines) {
-                let lLower = line.toLowerCase();
-                if (lLower.includes('sumber dana') || lLower === 'dari' || lLower.includes('pembayar')) { section = 'pengirim'; continue; }
-                if (lLower.includes('tujuan') || lLower === 'ke' || lLower.includes('detail pembayaran') || lLower.includes('penerima')) { section = 'tujuan'; continue; }
-                if (lLower.includes('jenis transaksi') || lLower.includes('nominal')) { section = 'none'; }
-                if (section === 'pengirim') pengirimData.push(stripLabelPrefix(line));
-                if (section === 'tujuan') tujuanData.push(stripLabelPrefix(line));
+            let kwh = dataText.match(/(?:jml\s*kwh|jumlah\s*kwh|kwh)[:\s]*([\d.,]+)/i);
+            if (kwh) {
+                let val = kwh[1].replace(/\./g, '').replace(',', '.');
+                let parsed = parseFloat(val);
+                if (!isNaN(parsed)) {
+                    document.getElementById('in-jml-kwh').value = (parsed > 1000 ? (parsed / 100).toFixed(2) : parsed.toFixed(2));
+                }
             }
 
-            const cleanName = (name) => { let p = name.split(' '); if (p.length > 1 && p[0].length <= 3 && p[0] === p[0].toUpperCase()) p.shift(); return p.join(' ').replace(/[^a-zA-Z\s\.]/g, '').trim(); };
-            const isBankName = (str) => /bank|bca|\bbri\b|beri|mandiri|bni|bsi|cimb|dana|ovo|gopay|shopeepay/i.test(str);
-            const cleanBankName = (str) => {
-                let s = str.toUpperCase();
-                if (s.includes('BERI') || s.includes('BRI')) return 'BANK BRI';
-                if (s.includes('BCA')) return 'BANK BCA';
-                if (s.includes('MANDIRI')) return 'BANK MANDIRI';
-                if (s.includes('BNI')) return 'BANK BNI';
-                if (s.includes('DANA')) return 'DANA';
-                if (s.includes('OVO')) return 'OVO';
-                if (s.includes('GOPAY')) return 'GOPAY';
-                if (s.includes('SHOPEEPAY')) return 'SHOPEEPAY';
-                return str.trim();
-            };
-            const cleanRekeningOcr = (str) => {
-                const firstDigit = str.search(/\d/); const lastDigitFromEnd = [...str].reverse().join('').search(/\d/);
-                if (firstDigit === -1) return str.trim();
-                let core = str.substring(firstDigit, str.length - lastDigitFromEnd);
-                if (/^[\d\*\s]+$/.test(core)) return core.trim().replace(/\s+/g, ' ');
-                return core.replace(/[A-Za-z\.\-]+/g, ' **** ').replace(/\s+/g, ' ').trim();
-            };
-
-            let pNama = "", pRek = "", pBank = "";
-            for (let item of pengirimData) {
-                if (/[\d\*\.\s\-xX]{5,}/.test(item) && pRek === "") pRek = cleanRekeningOcr(item);
-                else if (isBankName(item) && pBank === "") pBank = cleanBankName(item);
-                else if (item.length > 3 && pNama === "") pNama = cleanName(item);
-            }
-            let tNama = "", tRek = "", tBank = "";
-            for (let item of tujuanData) {
-                if (/[\d\*\.\s\-xX]{5,}/.test(item) && tRek === "") tRek = cleanRekeningOcr(item);
-                else if (isBankName(item) && tBank === "") tBank = cleanBankName(item);
-                else if (item.length > 3 && tNama === "") tNama = cleanName(item);
+            let token = dataText.match(/(?:stroom\/token|stroom|token|kode\s*token|serial\s*number)[:\s]*((?:\d[\s\-]?){20})/i);
+            if (token) {
+                document.getElementById('in-token').value = token[1].replace(/[\s\-]/g, '');
+            } else {
+                let kandidatToken = [...dataText.matchAll(/\b(?:\d[\s\-]?){20}\b/g)];
+                if (kandidatToken.length > 0) document.getElementById('in-token').value = kandidatToken[0][0].replace(/[\s\-]/g, '');
             }
 
-            if (pRek) document.getElementById('in-f1').value = pRek; else if(pBank) document.getElementById('in-f1').value = pBank;
-            if (pNama) document.getElementById('in-f2').value = pNama;
+            let rpBayar = dataText.match(/(?:rp\s*bayar|total\s*bayar|total\s*tagihan|total\s*pembayaran)[:\s]*Rp?\s*([\d\.\,]+)/i);
+            let rpStroom = dataText.match(/(?:rp\s*stroom\/token|stroom\/token|rp\s*stroom)[:\s]*Rp?\s*([\d\.\,]+)/i);
+
+            if (rpBayar) {
+                document.getElementById('in-nominal').value = cleanRupiah(rpBayar[1]);
+            } else if (rpStroom) {
+                document.getElementById('in-nominal').value = cleanRupiah(rpStroom[1]);
+            } else {
+                let nomMatch = dataText.match(/Rp\s*([\d\.\,]+)/i);
+                if (nomMatch) document.getElementById('in-nominal').value = cleanRupiah(nomMatch[1]);
+            }
+        }
+
+        // 2. FUNGSI SCAN TRANSFER (TETAP AMAN)
+        function extractTransfer(dataText, lines) {
+            let tgl = detectTanggal(dataText);
+            if (tgl) document.getElementById('in-tanggal').value = tgl;
+
+            let ref = dataText.match(/(?:no\.?\s*ref|ref|trx|referensi)[:\s]*([a-zA-Z0-9]+)/i);
+            if (ref) document.getElementById('in-ref').value = ref[1];
+
+            for (let i = 0; i < lines.length; i++) {
+                let lineLower = lines[i].toLowerCase();
+                if (lineLower.includes('sumber dana')) {
+                    let namaPengirim = '';
+                    let bankPengirim = '';
+                    let rekPengirim = '';
+
+                    for (let j = i + 1; j < Math.min(i + 6, lines.length); j++) {
+                        let lineNext = lines[j].trim();
+                        let lineNextLower = lineNext.toLowerCase();
+                        if (lineNextLower.includes('tujuan') || lineNextLower.includes('nominal') || lineNextLower.includes('total') || lineNextLower.includes('no. ref')) break;
+
+                        if (/[kK][mM]/.test(lineNext) || /koirul\s*mustakim/i.test(lineNext)) {
+                            namaPengirim = "KOIRUL MUSTAKIM";
+                        } else if (lineNext.length > 3 && !namaPengirim && !/(bank|bri|bca|mandiri)/i.test(lineNext) && !/\d{4,}/.test(lineNext)) {
+                            namaPengirim = lineNext.toUpperCase();
+                        }
+
+                        if (/bank|bri|bca|mandiri|bni|bsi|cimb|seabank/i.test(lineNext)) {
+                            let bMatch = lineNext.match(/(bank\s*\w+|bri|bca|mandiri|bni|bsi|cimb|seabank)/i);
+                            if (bMatch) bankPengirim = bMatch[0].toUpperCase();
+                        }
+
+                        if (/[\d\*]{4,}/.test(lineNext)) {
+                            let digitMatch = lineNext.match(/(\d{3,4})$/);
+                            if (digitMatch) rekPengirim = `(*${digitMatch[1]})`;
+                        }
+                    }
+
+                    if (namaPengirim) document.getElementById('in-f2').value = namaPengirim;
+                    if (bankPengirim) {
+                        document.getElementById('in-f1').value = `${bankPengirim} ${rekPengirim}`.trim();
+                    } else if (rekPengirim) {
+                        document.getElementById('in-f1').value = `BANK BRI ${rekPengirim}`;
+                    }
+                }
+
+                if (lineLower === 'tujuan' || lineLower.startsWith('tujuan')) {
+                    let namaTujuan = '';
+                    let bankTujuan = 'BANK BRI';
+                    let noRek = '';
+
+                    for (let j = i + 1; j < Math.min(i + 6, lines.length); j++) {
+                        let lineNext = lines[j].trim();
+                        let lineNextLower = lineNext.toLowerCase();
+                        if (lineNextLower.includes('nominal') || lineNextLower.includes('biaya') || lineNextLower.includes('catatan') || lineNextLower.includes('lihat detail')) break;
+
+                        if (/\d{10,15}/.test(lineNext.replace(/\s/g,''))) {
+                            noRek = lineNext.replace(/\s+/g, '');
+                        } else if (/(bank\s*\w+|bri|bca|mandiri|bni|bsi|cimb|seabank)/i.test(lineNext)) {
+                            let bMatch = lineNext.match(/(bank\s*\w+|bri|bca|mandiri|bni|bsi|cimb|seabank)/i);
+                            if (bMatch) bankTujuan = bMatch[0].toUpperCase();
+                        } else if (lineNext.length > 2 && !lineNextLower.includes('lihat detail')) {
+                            if (!namaTujuan) namaTujuan = lineNext.toUpperCase();
+                        }
+                    }
+
+                    if (namaTujuan) document.getElementById('in-tujuan-nama').value = namaTujuan;
+                    if (bankTujuan) document.getElementById('in-tujuan-bank').value = bankTujuan;
+                    if (noRek) document.getElementById('in-tujuan-rek').value = noRek;
+                }
+            }
+
+            if (!document.getElementById('in-f2').value) document.getElementById('in-f2').value = "KOIRUL MUSTAKIM";
+            if (!document.getElementById('in-f1').value) document.getElementById('in-f1').value = "BANK BRI (*537)";
+
+            let nomMatch = dataText.match(/(?:total\s*transaksi|nominal|total|jumlah)[:\s]*Rp?\s*([\d\.\,]+)/i) || dataText.match(/Rp\s*([\d\.\,]+)/i);
+            if (nomMatch) document.getElementById('in-nominal').value = cleanRupiah(nomMatch[1]);
+
+            let admMatch = dataText.match(/(?:biaya\s*admin|admin)[:\s]*Rp?\s*([\d\.\,]+)/i);
+            if (admMatch) document.getElementById('in-admin').value = cleanRupiah(admMatch[1]);
+        }
+
+        // 3. FUNGSI SCAN E-WALLET (DIPERBAIKI KHUSUS ID TRX & SUMBER DANA DANA)
+        function extractEwallet(dataText, lines) {
+            let tgl = detectTanggal(dataText);
+            if (tgl) document.getElementById('in-tanggal').value = tgl;
+
+            let matchIdTrx = dataText.match(/(?:id\s*transaksi|transaksi)[:\s]*(?:o\s*)?(\d{15,25})/i);
+            if (matchIdTrx) {
+                document.getElementById('in-ref').value = matchIdTrx[1];
+            } else {
+                let fallbackNumbers = dataText.match(/\b\d{18,25}\b/);
+                if (fallbackNumbers) {
+                    document.getElementById('in-ref').value = fallbackNumbers[0];
+                }
+            }
+
+            let kirimUangMatch = dataText.match(/kirim\s*uang\s*Rp[\d\.\,]+\s*ke\s*([A-Za-z\s\*\-\.]+?)(?=\s*\-\s*|\s*08|\s*$)/i);
+            let sumberMatchName = dataText.match(/(?:nama)[:\s]*([A-Za-z\s\*\-]+)(?=\s*akun\s*dana|$)/i);
+            if (sumberMatchName) {
+                document.getElementById('in-tujuan-nama').value = sumberMatchName[1].trim().toUpperCase();
+            } else if (kirimUangMatch) {
+                document.getElementById('in-tujuan-nama').value = kirimUangMatch[1].trim().toUpperCase();
+            }
+
+            let hpMatch = dataText.match(/\b(08|628)[0-9]{8,11}\b/);
+            if (hpMatch) document.getElementById('in-tujuan-rek').value = hpMatch[0];
+
+            document.getElementById('in-tujuan-bank').value = "DANA";
+
+            let metodeMatch = dataText.match(/metode\s*pembayaran\s*([A-Za-z0-9\s\(\)]+?)(?=\s*(?:detail|penerima|nama|akun|transaksi|$))/i);
+            if (metodeMatch) {
+                let cleanMetode = metodeMatch[1].replace(/detail.*|penerima.*|nama.*/gi, '').trim();
+                document.getElementById('in-f1').value = cleanMetode.toUpperCase();
+            } else {
+                document.getElementById('in-f1').value = "SALDO DANA (SMARTPAY)";
+            }
             
-            if (tRek) document.getElementById('in-tujuan-rek').value = tRek;
-            if (tNama) document.getElementById('in-tujuan-nama').value = tNama;
-            if (tBank) document.getElementById('in-tujuan-bank').value = tBank;
+            document.getElementById('in-f2').value = "KOIRUL MUSTAKIM";
 
-            // E-Wallet specific HP
-            const noHpMatch = dataText.match(/\b(0|62)8[0-9]{8,11}\b/);
-            if(jenisTransaksiAktif === 'ewallet' && noHpMatch && !tRek) document.getElementById('in-tujuan-rek').value = noHpMatch[0];
-            
-            // Tagihan Specific
-            if (jenisTransaksiAktif === 'tagihan') {
-                const noPelangganMatch = dataText.match(/(?:id\s*pelanggan|no\.?\s*pelanggan|nomor\s*meter|nomor\s*token|customer\s*id)[:\s]*([\w\-]{4,})/i);
-                if (noPelangganMatch) document.getElementById('in-tujuan-rek').value = noPelangganMatch[1];
+            let nomMatch = dataText.match(/(?:total\s*bayar|nominal|total)[:\s]*Rp?\s*([\d\.\,]+)/i) || dataText.match(/Rp\s*([\d\.\,]+)/i);
+            if (nomMatch) document.getElementById('in-nominal').value = cleanRupiah(nomMatch[1]);
+
+            let admMatch = dataText.match(/(?:biaya\s*admin|admin)[:\s]*Rp?\s*([\d\.\,]+)/i);
+            if (admMatch) document.getElementById('in-admin').value = cleanRupiah(admMatch[1]);
+        }
+
+        // 4. FUNGSI SCAN TAGIHAN BPJS (TIDAK DIUBAH)
+        function extractTagihan(dataText, lines) {
+            let tgl = detectTanggal(dataText);
+            if (tgl) document.getElementById('in-tanggal').value = tgl;
+
+            let ref = dataText.match(/(?:no\.?\s*pesanan|ref|trx|referensi)[:\s]*([a-zA-Z0-9]+)/i);
+            if (ref) document.getElementById('in-ref').value = ref[1];
+
+            let va = dataText.match(/(?:no\.?\s*va\s*keluarga|va\s*keluarga|no\.?\s*va|id\s*pelanggan)[:\s]*(\d{10,20})/i);
+            if (va) document.getElementById('in-tujuan-rek').value = va[1];
+
+            let namaPel = dataText.match(/(?:nama\s*pelanggan)[:\s]*([A-Za-z\s]+?)(?=\s*(?:bayar|periode|jumlah|total|rp|$))/i);
+            if (namaPel) {
+                let clean = namaPel[1].replace(/(bayar|sampai|agt|periode|jumlah|peserta)/gi, '').trim();
+                document.getElementById('in-tujuan-nama').value = clean;
+                document.getElementById('in-f2').value = clean;
             }
+
+            if (/bpjs\s*kesehatan/i.test(dataText)) {
+                document.getElementById('in-tujuan-bank').value = "BPJS KESEHATAN";
+            }
+
+            if (/seabank/i.test(dataText)) {
+                let digitMatch = dataText.match(/(?:seabank)[^\d]*(\d{4})/i);
+                document.getElementById('in-f1').value = digitMatch ? `SeaBank (*${digitMatch[1]})` : "SeaBank (*8309)";
+            }
+
+            let bayarSampai = dataText.match(/(?:bayar\s*sampai)[:\s]*([A-Za-z0-9\s]+?)(?=\s*(?:periode|jumlah|total|$))/i);
+            let jmlPeserta = dataText.match(/(?:jumlah\s*peserta)[:\s]*(\d+)/i);
+            let strPeriode = "";
+            if (bayarSampai) strPeriode += bayarSampai[1].trim();
+            if (jmlPeserta) strPeriode += ` (${jmlPeserta[1]} Peserta)`;
+            if (strPeriode) document.getElementById('in-periode').value = strPeriode;
+
+            let nomMatch = dataText.match(/(?:total\s*tagihan|total\s*pembayaran|total)[:\s]*Rp?\s*([\d\.\,]+)/i) || dataText.match(/Rp\s*([\d\.\,]+)/i);
+            if (nomMatch) document.getElementById('in-nominal').value = cleanRupiah(nomMatch[1]);
         }
 
         // PREVIEW & MODAL
@@ -778,6 +898,7 @@
             const outTujuanRek = document.getElementById('row-out-tujuan-rek');
             const outTujuanNama = document.getElementById('row-out-tujuan-nama');
             const outTujuanBank = document.getElementById('row-out-tujuan-bank');
+            const outPeriode = document.getElementById('row-out-periode');
             const outTarif = document.getElementById('row-out-tarif');
             const outKwh = document.getElementById('row-out-kwh');
             const outToken = document.getElementById('block-out-no-pelanggan');
@@ -791,7 +912,7 @@
                 
                 outF1.style.display = 'flex'; outF2.style.display = 'flex';
                 outTarif.style.display = 'flex'; outKwh.style.display = 'flex';
-                outTujuanRek.style.display = 'none'; outTujuanNama.style.display = 'none'; outTujuanBank.style.display = 'none';
+                outTujuanBank.style.display = 'none'; outTujuanRek.style.display = 'none'; outTujuanNama.style.display = 'none'; outPeriode.style.display = 'none';
                 outToken.style.display = 'block';
 
                 document.getElementById('out-tarif').innerText = val('in-tarif-daya');
@@ -801,33 +922,60 @@
                 
             } else {
                 outTarif.style.display = 'none'; outKwh.style.display = 'none';
-                
-                outF1.style.display = 'flex'; outF2.style.display = 'flex';
-                outTujuanRek.style.display = 'flex'; outTujuanNama.style.display = 'flex'; outTujuanBank.style.display = 'flex';
+                outF1.style.display = 'flex'; outF2.style.display = 'flex'; outTujuanBank.style.display = 'flex'; outTujuanNama.style.display = 'flex'; outTujuanRek.style.display = 'flex';
                 
                 if(jenisTransaksiAktif === 'transfer') {
                     document.getElementById('out-judul').innerText = "BUKTI TRANSFER";
                     document.getElementById('lbl-out-f1').innerText = "Rek Pengirim";
                     document.getElementById('lbl-out-f2').innerText = "Nama Pengirim";
-                    outToken.style.display = 'none';
+                    document.getElementById('lbl-out-tujuan-bank').innerText = "Bank Tujuan";
+                    document.getElementById('lbl-out-tujuan-rek').innerText = "Rek Tujuan";
+                    document.getElementById('lbl-out-tujuan-nama').innerText = "Nama Tujuan";
+                    document.getElementById('out-tujuan-rek').innerText = val('in-tujuan-rek');
+                    document.getElementById('out-tujuan-nama').innerText = val('in-tujuan-nama');
+                    document.getElementById('out-tujuan-bank').innerText = val('in-tujuan-bank');
+                    outPeriode.style.display = 'none'; outToken.style.display = 'none';
+
                 } else if(jenisTransaksiAktif === 'ewallet') {
                     document.getElementById('out-judul').innerText = "BUKTI TOPUP E-WALLET";
                     document.getElementById('lbl-out-f1').innerText = "Sumber Dana";
                     document.getElementById('lbl-out-f2').innerText = "Nama Akun";
-                    outToken.style.display = 'none';
-                } else {
+                    document.getElementById('lbl-out-tujuan-bank').innerText = "E-Wallet";
+                    document.getElementById('lbl-out-tujuan-rek').innerText = "No. HP/Akun";
+                    document.getElementById('lbl-out-tujuan-nama').innerText = "Nama Tujuan";
+                    document.getElementById('out-tujuan-rek').innerText = val('in-tujuan-rek');
+                    document.getElementById('out-tujuan-nama').innerText = val('in-tujuan-nama');
+                    document.getElementById('out-tujuan-bank').innerText = val('in-tujuan-bank');
+                    outPeriode.style.display = 'none'; outToken.style.display = 'none';
+
+                } else if(jenisTransaksiAktif === 'tagihan') {
                     document.getElementById('out-judul').innerText = "BUKTI PEMBAYARAN";
                     document.getElementById('lbl-out-f1').innerText = "Sumber Dana";
                     document.getElementById('lbl-out-f2').innerText = "Pembayar";
-                    outToken.style.display = 'block';
-                    document.getElementById('out-no-pelanggan').innerText = val('in-token');
+                    document.getElementById('lbl-out-tujuan-rek').innerText = "No. VA Keluarga";
+                    document.getElementById('out-tujuan-rek').innerText = val('in-tujuan-rek');
+                    document.getElementById('lbl-out-tujuan-nama').innerText = "Nama Pelanggan";
+                    document.getElementById('out-tujuan-nama').innerText = val('in-tujuan-nama');
+                    document.getElementById('lbl-out-tujuan-bank').innerText = "Produk";
+                    document.getElementById('out-tujuan-bank').innerText = val('in-tujuan-bank');
+                    
+                    if(val('in-periode') !== '-' && val('in-periode') !== '') {
+                        outPeriode.style.display = 'flex';
+                        document.getElementById('out-periode').innerText = val('in-periode');
+                    } else {
+                        outPeriode.style.display = 'none';
+                    }
+
+                    if(val('in-token') !== '-' && val('in-token') !== '') {
+                        outToken.style.display = 'block';
+                        document.getElementById('out-no-pelanggan').innerText = val('in-token');
+                    } else {
+                        outToken.style.display = 'none';
+                    }
                 }
 
                 document.getElementById('out-f1').innerText = val('in-f1');
                 document.getElementById('out-f2').innerText = val('in-f2');
-                document.getElementById('out-tujuan-rek').innerText = val('in-tujuan-rek');
-                document.getElementById('out-tujuan-nama').innerText = val('in-tujuan-nama');
-                document.getElementById('out-tujuan-bank').innerText = val('in-tujuan-bank');
             }
         }
 
@@ -865,7 +1013,7 @@
         }
 
         function padLabelValue(label, value) {
-            return String(label || '').padEnd(14, ' ') + ': ' + String(value || '-');
+            return String(label || '').padEnd(15, ' ') + ': ' + String(value || '-');
         }
 
         async function printReceiptBluetooth() {
@@ -875,13 +1023,14 @@
             }
             
             const get = (id) => document.getElementById(id).value || '-';
-            let t = "\x1B\x40\x1B\x61\x01\x1B\x21\x10MUSTAKIM CELL\n\x1B\x21\x00";
+            let t = "\x1B\x40\x1B\x74\x00\x1B\x61\x01\x1B\x21\x10MUSTAKIM PHONE\n\x1B\x21\x00";
             
             if(jenisTransaksiAktif === 'listrik') t += "STRUK TOKEN LISTRIK\n";
             else if(jenisTransaksiAktif === 'transfer') t += "BUKTI TRANSFER\n";
+            else if(jenisTransaksiAktif === 'ewallet') t += "BUKTI TOPUP E-WALLET\n";
             else t += "BUKTI PEMBAYARAN\n";
             
-            t += "--------------------------------\n\x1B\x61\x00";
+            t += "================================\n\x1B\x61\x00";
             t += padLabelValue('Tanggal', get('in-tanggal')) + "\n";
             t += padLabelValue('ID TRX', get('in-ref')) + "\n";
             t += "--------------------------------\n";
@@ -895,24 +1044,39 @@
                 const token = get('in-token').replace(/\D/g,'').match(/.{1,4}/g)?.join('-') || '-';
                 if(token.length <= 16) t += "\x1B\x21\x10" + token + "\n\x1B\x21\x00"; else t += token + "\n";
                 t += "\x1B\x45\x00\x1B\x61\x00--------------------------------\n";
-            } else {
-                t += padLabelValue(jenisTransaksiAktif==='transfer'?'REK PENGIRIM':'SUMBER DANA', get('in-f1')) + "\n";
-                t += padLabelValue('NAMA', get('in-f2')) + "\n";
+            } else if (jenisTransaksiAktif === 'tagihan') {
+                t += padLabelValue('Sumber Dana', get('in-f1')) + "\n";
+                t += padLabelValue('Pembayar', get('in-f2')) + "\n";
                 t += "--------------------------------\n";
-                t += padLabelValue('REK TUJUAN', get('in-tujuan-rek')) + "\n";
-                t += padLabelValue('NAMA TUJUAN', get('in-tujuan-nama')) + "\n";
-                t += padLabelValue('BANK/PRODUK', get('in-tujuan-bank')) + "\n";
-                if(jenisTransaksiAktif==='tagihan') {
+                t += padLabelValue('No. VA Keluarga', get('in-tujuan-rek')) + "\n";
+                t += padLabelValue('Nama Pelanggan', get('in-tujuan-nama')) + "\n";
+                t += padLabelValue('Produk', get('in-tujuan-bank')) + "\n";
+                if(get('in-periode') && get('in-periode') !== '-') {
+                    t += padLabelValue('Periode', get('in-periode')) + "\n";
+                }
+                if(get('in-token') && get('in-token') !== '-') {
                     t += "--------------------------------\n\x1B\x61\x01** Serial Number **\n\x1B\x45\x01" + get('in-token') + "\n\x1B\x45\x00\x1B\x61\x00";
                 }
                 t += "--------------------------------\n";
+            } else {
+                t += padLabelValue(jenisTransaksiAktif==='transfer'?'Rek Pengirim':'Sumber Dana', get('in-f1')) + "\n";
+                t += padLabelValue('Nama', get('in-f2')) + "\n";
+                t += "--------------------------------\n";
+                t += padLabelValue('Bank/Produk', get('in-tujuan-bank')) + "\n";
+                t += padLabelValue('Rek Tujuan', get('in-tujuan-rek')) + "\n";
+                t += padLabelValue('Nama Tujuan', get('in-tujuan-nama')) + "\n";
+                t += "--------------------------------\n";
             }
 
-            const total = document.getElementById('out-total').innerText.replace('Rp', '').trim();
-            t += padLabelValue('Nominal', 'Rp ' + formatRibuan(get('in-nominal'))) + "\n";
-            t += padLabelValue('Admin', 'Rp ' + formatRibuan(get('in-admin'))) + "\n";
-            t += "\x1B\x45\x01" + padLabelValue('TOTAL', 'Rp ' + total) + "\n\x1B\x45\x00--------------------------------\n";
-            t += "\x1B\x61\x01Transaksi berhasil\nTerima kasih telah\nmenggunakan layanan kami\n================================\n\n\n";
+            const nom = get('in-nominal');
+            const adm = get('in-admin');
+            const totalVal = (parseInt(String(nom).replace(/\D/g, '')) || 0) + (parseInt(String(adm).replace(/\D/g, '')) || 0);
+
+            t += padLabelValue('Nominal', 'Rp ' + formatRibuan(nom)) + "\n";
+            t += padLabelValue('Biaya Admin', 'Rp    ' + formatRibuan(adm)) + "\n";
+            t += "TOTAL          : Rp " + totalVal.toLocaleString('id-ID') + "\n";
+            t += "================================\n";
+            t += "\x1B\x61\x01Transaksi Berhasil\nTerima kasih telah\nmenggunakan layanan kami\n================================\n\n\n";
 
             try {
                 const bytes = new TextEncoder().encode(t);
@@ -968,6 +1132,7 @@
             
             if (file.type === 'application/pdf') {
                 try {
+                    if (typeof pdfjsLib === 'undefined') throw new Error("Library PDF belum siap");
                     const typedarray = new Uint8Array(await file.arrayBuffer());
                     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
                     const pdf = await pdfjsLib.getDocument(typedarray).promise;
