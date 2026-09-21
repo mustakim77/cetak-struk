@@ -478,7 +478,7 @@
                     </div>
                 </div>
 
-                <div class="modal-actions">    
+                <div class="modal-actions">   
                     <div class="row-flex">
                         <button class="btn-action outline" onclick="simpanKeRiwayat()"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
                         <button class="btn-action whatsapp" onclick="shareKeWhatsApp(this)"><i class="fa-brands fa-whatsapp"></i> Share</button>
@@ -1110,10 +1110,6 @@
             }
         }
 
-        function padLabelValue(label, value) {
-            return String(label || '').padEnd(15, ' ') + ': ' + String(value || '-');
-        }
-
         async function printReceiptBluetooth() {
             if (!printerConn.characteristic || !printerConn.device || !printerConn.device.gatt.connected) { 
                 await connectToPrinterWrapper(); 
@@ -1121,48 +1117,76 @@
             }
             
             const get = (id) => document.getElementById(id).value || '-';
-            let t = "\x1B\x40\x1B\x74\x00\x1B\x61\x01\x1B\x21\x10MUSTAKIM PHONE\n\x1B\x21\x00";
             
+            // FUNGSI BARU: Membuat teks rata kiri & kanan (contoh: Nominal ...... Rp 50.000)
+            const leftRight = (left, right, width = 32) => {
+                let l = String(left);
+                let r = String(right);
+                let space = width - l.length - r.length;
+                return l + ' '.repeat(space > 0 ? space : 1) + r;
+            };
+            
+            // FUNGSI BARU: Merapikan label titik dua agar sejajar
+            const padLbl = (label, value) => String(label).padEnd(13, ' ') + ': ' + String(value);
+
+            // INIT PRINTER & JUDUL (RATA TENGAH)
+            let t = "\x1B\x40\x1B\x74\x00"; 
+            t += "\x1B\x61\x01"; // Rata Tengah
+            t += "\x1B\x21\x10MUSTAKIM PHONE\n\x1B\x21\x00"; // Teks Besar
+
             if(jenisTransaksiAktif === 'listrik') t += "STRUK TOKEN LISTRIK\n";
             else if(jenisTransaksiAktif === 'transfer') t += "BUKTI TRANSFER\n";
             else if(jenisTransaksiAktif === 'ewallet') t += "BUKTI TOPUP E-WALLET\n";
             else t += "BUKTI PEMBAYARAN\n";
             
-            t += "================================\n\x1B\x61\x00";
-            t += padLabelValue('Tanggal', get('in-tanggal')) + "\n";
-            t += padLabelValue('ID TRX', get('in-ref')) + "\n";
+            // KEMBALIKAN KE RATA KIRI
+            t += "\x1B\x61\x00"; 
+            t += "================================\n";
+            t += padLbl('Tanggal', get('in-tanggal')) + "\n";
+            t += padLbl('ID TRX', get('in-ref')) + "\n";
             t += "--------------------------------\n";
 
             if (jenisTransaksiAktif === 'listrik') {
-                t += padLabelValue('ID PELANGGAN', get('in-f1')) + "\n";
-                t += padLabelValue('NAMA', get('in-f2')) + "\n";
-                t += padLabelValue('TARIF/DAYA', get('in-tarif-daya')) + "\n";
-                t += padLabelValue('JML KWH', get('in-jml-kwh')) + "\n";
-                t += "--------------------------------\n\x1B\x61\x01** Serial Number **\n\x1B\x45\x01";
+                t += padLbl('ID Pelanggan', get('in-f1')) + "\n";
+                t += padLbl('Nama', get('in-f2')) + "\n";
+                t += padLbl('Tarif/Daya', get('in-tarif-daya')) + "\n";
+                t += padLbl('Jml KWH', get('in-jml-kwh')) + "\n";
+                t += "--------------------------------\n";
+                t += "\x1B\x61\x01** Serial Number **\n\x1B\x45\x01"; // Rata Tengah & Bold
+                
                 const token = get('in-token').replace(/\D/g,'').match(/.{1,4}/g)?.join('-') || '-';
                 if(token.length <= 16) t += "\x1B\x21\x10" + token + "\n\x1B\x21\x00"; else t += token + "\n";
-                t += "\x1B\x45\x00\x1B\x61\x00--------------------------------\n";
-            } else if (jenisTransaksiAktif === 'tagihan') {
-                t += padLabelValue('Sumber Dana', get('in-f1')) + "\n";
-                t += padLabelValue('Pembayar', get('in-f2')) + "\n";
+                
+                t += "\x1B\x45\x00\x1B\x61\x00"; // Matikan Bold, Kembali Rata Kiri
                 t += "--------------------------------\n";
-                t += padLabelValue('No. VA Keluarga', get('in-tujuan-rek')) + "\n";
-                t += padLabelValue('Nama Pelanggan', get('in-tujuan-nama')) + "\n";
-                t += padLabelValue('Produk', get('in-tujuan-bank')) + "\n";
+            } else if (jenisTransaksiAktif === 'tagihan') {
+                t += padLbl('Sumber Dana', get('in-f1')) + "\n";
+                t += padLbl('Pembayar', get('in-f2')) + "\n";
+                t += "--------------------------------\n";
+                t += padLbl('No. VA', get('in-tujuan-rek')) + "\n";
+                t += padLbl('Nama Plg', get('in-tujuan-nama')) + "\n";
+                t += padLbl('Produk', get('in-tujuan-bank')) + "\n";
+                
                 if(get('in-periode') && get('in-periode') !== '-') {
-                    t += padLabelValue('Periode', get('in-periode')) + "\n";
+                    t += padLbl('Periode', get('in-periode')) + "\n";
                 }
                 if(get('in-token') && get('in-token') !== '-') {
-                    t += "--------------------------------\n\x1B\x61\x01** Serial Number **\n\x1B\x45\x01" + get('in-token') + "\n\x1B\x45\x00\x1B\x61\x00";
+                    t += "--------------------------------\n";
+                    t += "\x1B\x61\x01** Serial Number **\n\x1B\x45\x01" + get('in-token') + "\n\x1B\x45\x00\x1B\x61\x00";
                 }
                 t += "--------------------------------\n";
             } else {
-                t += padLabelValue(jenisTransaksiAktif==='transfer'?'Rek Pengirim':'Sumber Dana', get('in-f1')) + "\n";
-                t += padLabelValue('Nama', get('in-f2')) + "\n";
+                // Label Dinamis Transfer vs E-Wallet
+                let lblSumber = jenisTransaksiAktif === 'transfer' ? 'Rek Pengirim' : 'Sumber Dana';
+                let lblTujuan = jenisTransaksiAktif === 'transfer' ? 'Rek Tujuan' : 'No. HP/Akun';
+                let lblBank = jenisTransaksiAktif === 'transfer' ? 'Bank Tujuan' : 'E-Wallet';
+
+                t += padLbl(lblSumber, get('in-f1')) + "\n";
+                t += padLbl('Nama', get('in-f2')) + "\n";
                 t += "--------------------------------\n";
-                t += padLabelValue('Bank/Produk', get('in-tujuan-bank')) + "\n";
-                t += padLabelValue('Rek Tujuan', get('in-tujuan-rek')) + "\n";
-                t += padLabelValue('Nama Tujuan', get('in-tujuan-nama')) + "\n";
+                t += padLbl(lblBank, get('in-tujuan-bank')) + "\n";
+                t += padLbl(lblTujuan, get('in-tujuan-rek')) + "\n";
+                t += padLbl('Nama Tujuan', get('in-tujuan-nama')) + "\n";
                 t += "--------------------------------\n";
             }
 
@@ -1170,22 +1194,32 @@
             const adm = cleanRupiah(get('in-admin'));
             const totalVal = (parseInt(nom) || 0) + (parseInt(adm) || 0);
 
-            t += padLabelValue('Nominal', 'Rp ' + formatRibuan(nom)) + "\n";
-            t += padLabelValue('Biaya Admin', 'Rp    ' + formatRibuan(adm)) + "\n";
-            t += "TOTAL          : Rp " + totalVal.toLocaleString('id-ID') + "\n";
+            // MENGGUNAKAN LEFTRIGHT AGAR HARGA PRESISI DI KANAN
+            t += leftRight('Nominal', 'Rp ' + formatRibuan(nom)) + "\n";
+            t += leftRight('Biaya Admin', 'Rp ' + formatRibuan(adm)) + "\n";
+            t += leftRight('TOTAL', 'Rp ' + totalVal.toLocaleString('id-ID')) + "\n";
+            
             t += "================================\n";
-            t += "\x1B\x61\x01Transaksi Berhasil\nTerima kasih telah\nmenggunakan layanan kami\n================================\n\n\n";
+            t += "\x1B\x61\x01"; // Rata Tengah
+            t += "Transaksi Berhasil\nTerima kasih telah\nmenggunakan layanan kami\n";
+            t += "================================\n\n\n";
 
             try {
                 const bytes = new TextEncoder().encode(t);
                 for (let i = 0; i < bytes.length; i += 20) {
                     const chunk = bytes.slice(i, i + 20);
-                    if (printerConn.characteristic.properties.writeWithoutResponse) await printerConn.characteristic.writeValueWithoutResponse(chunk);
-                    else await printerConn.characteristic.writeValue(chunk);
-                    await new Promise(r => setTimeout(r, 25));
+                    if (printerConn.characteristic.properties.writeWithoutResponse) {
+                        await printerConn.characteristic.writeValueWithoutResponse(chunk);
+                    } else {
+                        await printerConn.characteristic.writeValue(chunk);
+                    }
+                    await new Promise(r => setTimeout(r, 25)); // Jeda agar memori printer tidak penuh
                 }
-                showToast('Struk dicetak!', 'success');
-            } catch(e) { showToast('Gagal mencetak.', 'error'); }
+                showToast('Struk berhasil dicetak!', 'success');
+            } catch(e) { 
+                console.error(e);
+                showToast('Gagal mencetak. Coba hubungkan ulang printer.', 'error'); 
+            }
         }
 
         // SAVE & SHARE
