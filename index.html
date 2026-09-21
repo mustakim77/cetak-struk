@@ -172,7 +172,8 @@
         .r-colon { width: 12px; text-align: center; flex-shrink: 0; }
         .r-value { flex-grow: 1; text-align: left; word-break: break-all; }
         #block-out-no-pelanggan { display: none; text-align: center; margin: 12px 0; }
-        #out-no-pelanggan { font-weight: 700; font-size: 14px; letter-spacing: 1px; word-break: break-all;}
+        
+        #out-no-pelanggan { font-weight: 800; font-size: 16px; letter-spacing: 1.5px; word-break: break-all; margin-top: 5px; color: var(--text-main); }
 
         .modal-actions { display: flex; gap: 12px; width: 100%; max-width: 320px; flex-direction: column;}
         .btn-action { padding: 14px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; transition: 0.2s;}
@@ -1009,6 +1010,7 @@
 
                 document.getElementById('out-tarif').innerText = val('in-tarif-daya');
                 document.getElementById('out-kwh').innerText = val('in-jml-kwh');
+                
                 let tokenRaw = val('in-token').replace(/\D/g,'');
                 document.getElementById('out-no-pelanggan').innerText = tokenRaw.match(/.{1,4}/g)?.join('-') || '-';
                 
@@ -1118,21 +1120,16 @@
             
             const get = (id) => document.getElementById(id).value || '-';
             
-            // FUNGSI BARU: Membuat teks rata kiri & kanan (contoh: Nominal ...... Rp 50.000)
-            const leftRight = (left, right, width = 32) => {
-                let l = String(left);
-                let r = String(right);
-                let space = width - l.length - r.length;
-                return l + ' '.repeat(space > 0 ? space : 1) + r;
+            // FUNGSI BARU: Menyamakan persis seperti gambar (kolom label tepat 15 karakter)
+            const padRow = (label, value) => {
+                let lbl = String(label).padEnd(15, ' ');
+                return lbl + ': ' + String(value);
             };
-            
-            // FUNGSI BARU: Merapikan label titik dua agar sejajar
-            const padLbl = (label, value) => String(label).padEnd(13, ' ') + ': ' + String(value);
 
             // INIT PRINTER & JUDUL (RATA TENGAH)
             let t = "\x1B\x40\x1B\x74\x00"; 
             t += "\x1B\x61\x01"; // Rata Tengah
-            t += "\x1B\x21\x10MUSTAKIM PHONE\n\x1B\x21\x00"; // Teks Besar
+            t += "\x1B\x21\x10\x1B\x45\x01MUSTAKIM PHONE\n\x1B\x45\x00\x1B\x21\x00"; // Tinggi ganda & Bold
 
             if(jenisTransaksiAktif === 'listrik') t += "STRUK TOKEN LISTRIK\n";
             else if(jenisTransaksiAktif === 'transfer') t += "BUKTI TRANSFER\n";
@@ -1141,34 +1138,41 @@
             
             // KEMBALIKAN KE RATA KIRI
             t += "\x1B\x61\x00"; 
-            t += "================================\n";
-            t += padLbl('Tanggal', get('in-tanggal')) + "\n";
-            t += padLbl('ID TRX', get('in-ref')) + "\n";
-            t += "--------------------------------\n";
+            t += "================================\n"; // Sesuai gambar
+            
+            t += padRow('Tanggal', get('in-tanggal')) + "\n";
+            t += padRow('ID TRX', get('in-ref')) + "\n";
+            t += "--------------------------------\n"; // Sesuai gambar
 
             if (jenisTransaksiAktif === 'listrik') {
-                t += padLbl('ID Pelanggan', get('in-f1')) + "\n";
-                t += padLbl('Nama', get('in-f2')) + "\n";
-                t += padLbl('Tarif/Daya', get('in-tarif-daya')) + "\n";
-                t += padLbl('Jml KWH', get('in-jml-kwh')) + "\n";
-                t += "--------------------------------\n";
+                t += padRow('ID Pelanggan', get('in-f1')) + "\n";
+                t += padRow('Nama Pelanggan', get('in-f2')) + "\n"; // Sesuai gambar (lengkap)
+                t += "--------------------------------\n"; // Sesuai gambar
+                
+                t += padRow('Tarif/Daya', get('in-tarif-daya')) + "\n";
+                t += padRow('Jumlah KWH', get('in-jml-kwh')) + "\n"; // Sesuai gambar
+                t += "\n";
+                
                 t += "\x1B\x61\x01** Serial Number **\n\x1B\x45\x01"; // Rata Tengah & Bold
                 
-                const token = get('in-token').replace(/\D/g,'').match(/.{1,4}/g)?.join('-') || '-';
-                if(token.length <= 16) t += "\x1B\x21\x10" + token + "\n\x1B\x21\x00"; else t += token + "\n";
+                let rawToken = get('in-token').replace(/\D/g, '');
+                const tokenStr = rawToken.match(/.{1,4}/g)?.join('-') || '-';
+                
+                // Cetak ukuran Tinggi Ganda
+                t += "\x1B\x21\x10" + tokenStr + "\n\x1B\x21\x00"; 
                 
                 t += "\x1B\x45\x00\x1B\x61\x00"; // Matikan Bold, Kembali Rata Kiri
                 t += "--------------------------------\n";
             } else if (jenisTransaksiAktif === 'tagihan') {
-                t += padLbl('Sumber Dana', get('in-f1')) + "\n";
-                t += padLbl('Pembayar', get('in-f2')) + "\n";
+                t += padRow('Sumber Dana', get('in-f1')) + "\n";
+                t += padRow('Pembayar', get('in-f2')) + "\n";
                 t += "--------------------------------\n";
-                t += padLbl('No. VA', get('in-tujuan-rek')) + "\n";
-                t += padLbl('Nama Plg', get('in-tujuan-nama')) + "\n";
-                t += padLbl('Produk', get('in-tujuan-bank')) + "\n";
+                t += padRow('No. VA', get('in-tujuan-rek')) + "\n";
+                t += padRow('Nama Pelanggan', get('in-tujuan-nama')) + "\n";
+                t += padRow('Produk', get('in-tujuan-bank')) + "\n";
                 
                 if(get('in-periode') && get('in-periode') !== '-') {
-                    t += padLbl('Periode', get('in-periode')) + "\n";
+                    t += padRow('Periode', get('in-periode')) + "\n";
                 }
                 if(get('in-token') && get('in-token') !== '-') {
                     t += "--------------------------------\n";
@@ -1176,17 +1180,16 @@
                 }
                 t += "--------------------------------\n";
             } else {
-                // Label Dinamis Transfer vs E-Wallet
                 let lblSumber = jenisTransaksiAktif === 'transfer' ? 'Rek Pengirim' : 'Sumber Dana';
                 let lblTujuan = jenisTransaksiAktif === 'transfer' ? 'Rek Tujuan' : 'No. HP/Akun';
                 let lblBank = jenisTransaksiAktif === 'transfer' ? 'Bank Tujuan' : 'E-Wallet';
 
-                t += padLbl(lblSumber, get('in-f1')) + "\n";
-                t += padLbl('Nama', get('in-f2')) + "\n";
+                t += padRow(lblSumber, get('in-f1')) + "\n";
+                t += padRow('Nama Pengirim', get('in-f2')) + "\n";
                 t += "--------------------------------\n";
-                t += padLbl(lblBank, get('in-tujuan-bank')) + "\n";
-                t += padLbl(lblTujuan, get('in-tujuan-rek')) + "\n";
-                t += padLbl('Nama Tujuan', get('in-tujuan-nama')) + "\n";
+                t += padRow(lblBank, get('in-tujuan-bank')) + "\n";
+                t += padRow(lblTujuan, get('in-tujuan-rek')) + "\n";
+                t += padRow('Nama Tujuan', get('in-tujuan-nama')) + "\n";
                 t += "--------------------------------\n";
             }
 
@@ -1194,12 +1197,15 @@
             const adm = cleanRupiah(get('in-admin'));
             const totalVal = (parseInt(nom) || 0) + (parseInt(adm) || 0);
 
-            // MENGGUNAKAN LEFTRIGHT AGAR HARGA PRESISI DI KANAN
-            t += leftRight('Nominal', 'Rp ' + formatRibuan(nom)) + "\n";
-            t += leftRight('Biaya Admin', 'Rp ' + formatRibuan(adm)) + "\n";
-            t += leftRight('TOTAL', 'Rp ' + totalVal.toLocaleString('id-ID')) + "\n";
+            // Nominal dan Biaya Admin sejajar
+            t += padRow('Nominal', 'Rp ' + formatRibuan(nom)) + "\n";
+            t += padRow('Biaya Admin', 'Rp ' + formatRibuan(adm)) + "\n";
             
-            t += "================================\n";
+            // TOTAL DIBUAT BOLD SEPERTI GAMBAR
+            t += "\x1B\x45\x01" + padRow('TOTAL', 'Rp ' + totalVal.toLocaleString('id-ID')) + "\x1B\x45\x00\n";
+            
+            t += "================================\n"; // Sesuai gambar
+            
             t += "\x1B\x61\x01"; // Rata Tengah
             t += "Transaksi Berhasil\nTerima kasih telah\nmenggunakan layanan kami\n";
             t += "================================\n\n\n";
